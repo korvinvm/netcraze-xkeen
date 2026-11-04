@@ -1,0 +1,44 @@
+#!/bin/sh
+# Сторож Xray: проверка туннеля каждые 5 минут, полное обновление подписки раз в час.
+PIDFILE=/opt/var/run/xrayguard.pid
+LOOP=300
+
+case "$1" in
+  start)
+    if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+      echo "уже запущен"; exit 0
+    fi
+    (
+      i=0
+      while true; do
+        /opt/etc/xray/health.sh
+        i=$((i + 1))
+        if [ $i -ge 12 ]; then
+          i=0
+          /opt/etc/xray/sub-sync.sh
+        fi
+        sleep $LOOP
+      done
+    ) >/dev/null 2>&1 &
+    echo $! > "$PIDFILE"
+    echo "сторож запущен, pid $(cat $PIDFILE)"
+    ;;
+  stop)
+    [ -f "$PIDFILE" ] && kill "$(cat "$PIDFILE")" 2>/dev/null
+    rm -f "$PIDFILE"
+    echo "остановлен"
+    ;;
+  restart)
+    $0 stop; sleep 1; $0 start
+    ;;
+  status)
+    if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+      echo "работает, pid $(cat $PIDFILE)"
+    else
+      echo "не запущен"
+    fi
+    ;;
+  *)
+    echo "usage: $0 {start|stop|restart|status}"
+    ;;
+esac

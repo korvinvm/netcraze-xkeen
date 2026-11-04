@@ -1,0 +1,5 @@
+SECRETS.md
+logs/
+*.log
+__pycache__/
+*.pyc
