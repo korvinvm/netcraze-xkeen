@@ -135,23 +135,13 @@ netfilter** средствами NDMS. Ручные правки iptables не �
 
 ---
 
-## 7. ESP32 — внешний наблюдатель
+## 7. ESP32 — вынесено в отдельный проект
 
-- Модуль: NM Miner (ESP32, 2 ядра 240 МГц, CH340, USB-SERIAL `COM4`), прошивка NMMiner 1.8.20 стёрта.
-- Залит **MicroPython 1.22.2** (`esp32/mp.bin`, адрес `0x1000`), скрипт `esp32/watchdog_main.py` → `main.py`.
-- Что делает: подключается к `Netcraze-Guest`, каждые 5 секунд меряет RSSI, TCP-отклик шлюза и
-  `1.1.1.1:443`, пишет JSON-строки в USB-порт; при обрыве переподключается, после 6 неудач — reset.
-- Лог на ноуте: `esp32/log_watch.py` пишет в `logs/wifi-watch.log`.
+Плата-наблюдатель, замеры Wi-Fi и TCP, прошивка и логи переехали в самостоятельный проект:
 
-Заливка (нужен вход в режим загрузчика: зажать BOOT, нажать RST, отпустить RST, держать BOOT 2 с):
+**`C:\Users\USER\projects\esp32-watch`** (README там же: как прошить, как читать лог, где настройки).
 
-```powershell
-.venv\Scripts\python.exe -m esptool --port COM4 --before no-reset erase-flash
-.venv\Scripts\python.exe -m esptool --port COM4 --before no-reset write-flash 0x1000 mp.bin
-.venv\Scripts\mpremote.exe connect COM4 fs cp watchdog_main.py :main.py
-```
-
-Экран после перепрошивки чёрный — в MicroPython драйвера дисплея нет.
+Здесь ESP32 больше не нужна: этот репозиторий — про Xray, подписки и установщик.
 
 ---
 
