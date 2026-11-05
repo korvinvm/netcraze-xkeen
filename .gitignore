@@ -1,5 +1,7 @@
+installer/dist/
+installer/keen-xray-arm64
+installer/keen-xray-armv7
+installer/keen-xray-mipsle
+installer/test/out*/
 SECRETS.md
-logs/
-*.log
-__pycache__/
-*.pyc
+installer/keen-xray-1.0.zip
