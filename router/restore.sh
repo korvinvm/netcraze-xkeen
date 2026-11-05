@@ -1,6 +1,6 @@
 CFG=/opt/etc/xray/configs/05_routing.json
 TAG=$(cat /opt/var/xray-sub/current_tag 2>/dev/null)
-[ -n "$TAG" ] || TAG=proxy-gvtqwuhsta-liberty-nodes-online-direct
+[ -n "$TAG" ] || TAG=proxy-node1-direct
 jq --arg t "$TAG" '.routing.rules |= map(if ((.outboundTag // "") | startswith("proxy")) then .outboundTag=$t else . end)' /opt/var/routing.bak > $CFG
 /opt/etc/init.d/S24xray restart >/dev/null 2>&1
 sleep 5

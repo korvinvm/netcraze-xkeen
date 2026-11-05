@@ -1,5 +1,5 @@
 #!/bin/sh
-# Сторож Xray: проверка туннеля каждые 5 минут, полное обновление подписки раз в час.
+# Сторож Xray: проверка туннеля каждые 5 минут, полное обновление подписки раз в 30 минут.
 PIDFILE=/opt/var/run/xrayguard.pid
 LOOP=300
 
@@ -13,7 +13,7 @@ case "$1" in
       while true; do
         /opt/etc/xray/health.sh
         i=$((i + 1))
-        if [ $i -ge 12 ]; then
+        if [ $i -ge 6 ]; then
           i=0
           /opt/etc/xray/sub-sync.sh
         fi
