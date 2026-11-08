@@ -1,27 +1,23 @@
 #!/bin/sh
-# Сторож Xray: проверка туннеля каждые 5 минут, полное обновление подписки раз в 30 минут.
+# Сторож Xray: запускает keeper.sh — проверка туннеля каждые 15 секунд,
+# при обрыве мгновенное переключение на другой сервер из скачанного списка.
 PIDFILE=/opt/var/run/xrayguard.pid
-LOOP=300
 
 case "$1" in
   start)
     if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
       echo "уже запущен"; exit 0
     fi
+    # супервизор: держит сторожа живым. Упал — через 10 секунд поднимется снова.
     (
-      i=0
+      trap '' HUP
       while true; do
-        /opt/etc/xray/health.sh
-        i=$((i + 1))
-        if [ $i -ge 6 ]; then
-          i=0
-          /opt/etc/xray/sub-sync.sh
-        fi
-        sleep $LOOP
+        /opt/etc/xray/keeper.sh </dev/null >/dev/null 2>&1
+        sleep 10
       done
-    ) >/dev/null 2>&1 &
+    ) </dev/null >/dev/null 2>&1 &
     echo $! > "$PIDFILE"
-    echo "сторож запущен, pid $(cat $PIDFILE)"
+    echo "супервизор запущен, pid $(cat $PIDFILE)"
     ;;
   stop)
     [ -f "$PIDFILE" ] && kill "$(cat "$PIDFILE")" 2>/dev/null

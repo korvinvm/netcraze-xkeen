@@ -1,0 +1,3 @@
+* * * * * exec sh /opt/etc/xray/tick.sh
+* * * * * exec sh /opt/etc/xray/keeper.sh
+17 * * * * exec sh /opt/etc/xray/sub-sync.sh

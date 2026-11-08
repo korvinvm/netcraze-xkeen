@@ -1,0 +1,414 @@
+{
+  "outbounds": [
+    {
+      "tag": "proxy-zrdmndopzt-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "zrdmndopzt.liberty-nodes.online",
+            "port": 443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "hsczzf6mnv.mail.ru",
+          "publicKey": "JjHZYImPLSxYd-hVQ-jazFoAGoveZeb74nNFLH5dAnI",
+          "shortId": "191fb5e9a982f7b0",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-wjivqweuhc-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "wjivqweuhc.liberty-nodes.online",
+            "port": 443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "5dlnerbo31.mail.ru",
+          "publicKey": "r3LWtIVIAzCZoRM7tSlM7akmgCDcYpMtmvfISlS4oWc",
+          "shortId": "dccb92bdaad0309f",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-263160-aib2bsas-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "263160.aib2bsas.online",
+            "port": 443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "navigation.maps.yandex.net",
+          "publicKey": "r3LWtIVIAzCZoRM7tSlM7akmgCDcYpMtmvfISlS4oWc",
+          "shortId": "dccb92bdaad0309f",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-ijsahztybj-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "ijsahztybj.liberty-nodes.online",
+            "port": 443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "pc7j0u55ox.mail.ru",
+          "publicKey": "ObdaDJ1-OGV8eq3pV3uw7CX1LR9snkN9YDkaCqfxtik",
+          "shortId": "e40e390e6790a97e",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-fzonqcmwuv-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "fzonqcmwuv.liberty-nodes.online",
+            "port": 8443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "n77o8ra9yz.mail.ru",
+          "publicKey": "3L3i_4b1jo-cCwx3TwIEjjOxQIMm6ysblH3AvTlvgBk",
+          "shortId": "aa4f389ce90c6326",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-vdouqudlkm-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "vdouqudlkm.liberty-nodes.online",
+            "port": 8443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "otnt137a7q.mail.ru",
+          "publicKey": "rWRM2cPptEBzNrJ0UGmTJ5yzE7jzDueFBG7N26IQ6Bw",
+          "shortId": "7ca862e35fe5e7f0",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-qrsgtshnth-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "qrsgtshnth.liberty-nodes.online",
+            "port": 8443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "likcnna4ac.mail.ru",
+          "publicKey": "a4E6GoR8p4OH_5ktTgRgdJfhS98lbTCzmf_B0JdgOT8",
+          "shortId": "57c55e55e4bf190b",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-gluqrqpauo-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "gluqrqpauo.liberty-nodes.online",
+            "port": 8443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "7fy35niupa.mail.ru",
+          "publicKey": "DyaJbQTstATDS6roBW3zGNndY4NmGmGiO0Nxr-pD4gU",
+          "shortId": "73f22a22c6d98dc9",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-zhgpzlloio-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "zhgpzlloio.liberty-nodes.online",
+            "port": 8443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "827l2a0p11.mail.ru",
+          "publicKey": "aVgexqDLnJJzvD2O_S-N6qDdzFxSliDEwRkvCUq-khY",
+          "shortId": "fa37392c0839c6b0",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-bkwomtekeh-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "bkwomtekeh.liberty-nodes.online",
+            "port": 8443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "1w20o34ss8.mail.ru",
+          "publicKey": "ORFKlz-2ycrEzhqrILJHADpdAtEIBtkTIMz7XWW2MDM",
+          "shortId": "5d1f22459b4e9a3a",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-fjhnukjpzc-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "fjhnukjpzc.liberty-nodes.online",
+            "port": 8443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "vykpamqtyf.mail.ru",
+          "publicKey": "nYrWjkzhBoGSNusIv7c-32q9M3-CmUcZRQT7WKURL0Y",
+          "shortId": "99bc67ffe37b513c",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-dkzmkxeiur-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "dkzmkxeiur.liberty-nodes.online",
+            "port": 443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "x7w0rse4f4.mail.ru",
+          "publicKey": "2NtvNsBpKxbXdM10sXCDOedKkdZ3gwAs3WUnwqbv5Hs",
+          "shortId": "01bd983cc160a26a",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "proxy-hhwkywzzfc-liberty-nodes-online-direct",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "hhwkywzzfc.liberty-nodes.online",
+            "port": 443,
+            "users": [
+              {
+                "id": "b3b6d24f-09d7-4d61-8e2c-2f3a2d19fcb9",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "link.mp.rzd.ru",
+          "publicKey": "k6rz_-vWxwgMf8VwXhW0mksond9nH7fEzfcqIp-8kk4",
+          "shortId": "6b4a5232431f933a",
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIP"
+      },
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {
+        "response": {
+          "type": "http"
+        }
+      },
+      "tag": "block"
+    },
+    {
+      "tag": "dns-out",
+      "protocol": "dns"
+    }
+  ]
+}
