@@ -120,16 +120,18 @@ try_servers() {
 # --- сколько живых серверов ---------------------------------------------------
 count_alive() {
     refresh_pool
-    : > "$ALIVE"
-    cur=$(current_tag)
     n=0
+    : > "$ALIVE"
     while read -r tag; do
         [ -n "$tag" ] || continue
-        host=$(jq -r --arg t "$tag" '.outbounds[] | select(.tag == $t) | .settings.vnext[0].address // empty' \
-            "$CFG/04_outbounds.json" 2>/dev/null)
+        host=$(jq -r --arg t "$tag" '.outbounds[] | select(.tag == $t) | .settings.vnext[0].address // empty'             "$CFG/04_outbounds.json" 2>/dev/null)
+        port=$(jq -r --arg t "$tag" '.outbounds[] | select(.tag == $t) | (.settings.vnext[0].port // 443)'             "$CFG/04_outbounds.json" 2>/dev/null)
         [ -n "$host" ] || continue
-        if /opt/bin/curl -s -m 3 -o /dev/null "https://$host" 2>/dev/null || \
-           /opt/bin/curl -s -m 3 -o /dev/null --resolve "$host:443:$(nslookup "$host" 2>/dev/null | awk '/^Address: /{print $2; exit}')" "https://$host" 2>/dev/null; then
+        # сервер VLESS не отвечает по HTTP, но порт открыт — считаем живым:
+        # код 7 значит «не подключиться», всё остальное — соединение состоялось
+        /opt/bin/curl -s -m 5 --connect-timeout 3 -o /dev/null "http://$host:${port:-443}" 2>/dev/null
+        rc=$?
+        if [ "$rc" -ne 7 ] && [ "$rc" -ne 6 ]; then
             echo "$tag" >> "$ALIVE"
             n=$((n + 1))
         fi
