@@ -155,6 +155,16 @@ netfilter** средствами NDMS. Ручные правки iptables не �
   через `host.docker.internal:2222` (запускаются внутри контейнера `astrology-bot`, там есть paramiko).
 - Запуск форвардера: `python fwd.py 2222 192.168.2.1 22 192.168.2.145`.
 
+**Напрямую с ноутбука (без контейнера).** Если ноут в сети `192.168.1.x`, роутер доступен по своему
+WAN-адресу `192.168.1.65:22` — LAN-адрес `192.168.2.1` из этой подсети недоступен. Пароль берётся из
+`SECRETS.md`, в командную строку не попадает:
+
+```sh
+PYTHONPATH="" uv run --quiet --with paramiko python tools/run_remote.py router/diag-dns.sh   # shell-скрипт на роутере
+PYTHONPATH="" uv run --quiet --with paramiko python tools/put_file.py router/keeper.sh /opt/etc/xray/keeper.sh
+PYTHONPATH="" uv run --quiet --with paramiko python tools/ndms_cli.py "show ip name-server"  # родной CLI NDMS
+```
+
 Проверка, что дело в маршрутах: `ping -S 192.168.2.145 192.168.2.1` — 0% потерь; без привязки — 100%.
 
 ### `happ` и «интернет пропал без него»
