@@ -90,12 +90,19 @@ switch_to() {
     fi
     rm -f "$WORK/fallback_direct"
     /opt/etc/init.d/S24xray restart >/dev/null 2>&1
-    sleep 2
-    if probe; then
-        log "переключились на $tag — туннель отвечает"
-        echo "$tag" > "$WORK/current"
-        return 0
-    fi
+    # Xray после перезапуска поднимается не мгновенно: даём до 15 с,
+    # иначе живой сервер объявляется мёртвым и мы меняем его впустую
+    i=0
+    while [ "$i" -lt 5 ]; do
+        sleep 3
+        if probe; then
+            log "переключились на $tag — туннель отвечает"
+            echo "$tag" > "$WORK/current"
+            echo "$tag" > "$WORK/current_tag"
+            return 0
+        fi
+        i=$((i + 1))
+    done
     log "переключились на $tag, но туннель молчит"
     return 1
 }
@@ -127,11 +134,8 @@ count_alive() {
         host=$(jq -r --arg t "$tag" '.outbounds[] | select(.tag == $t) | .settings.vnext[0].address // empty'             "$CFG/04_outbounds.json" 2>/dev/null)
         port=$(jq -r --arg t "$tag" '.outbounds[] | select(.tag == $t) | (.settings.vnext[0].port // 443)'             "$CFG/04_outbounds.json" 2>/dev/null)
         [ -n "$host" ] || continue
-        # сервер VLESS не отвечает по HTTP, но порт открыт — считаем живым:
-        # код 7 значит «не подключиться», всё остальное — соединение состоялось
-        /opt/bin/curl -s -m 5 --connect-timeout 3 -o /dev/null "http://$host:${port:-443}" 2>/dev/null
-        rc=$?
-        if [ "$rc" -ne 7 ] && [ "$rc" -ne 6 ]; then
+        # VLESS не отвечает по HTTP: проверяем сам порт — это быстрее и не врёт
+        if nc -w 2 "$host" "${port:-443}" </dev/null >/dev/null 2>&1; then
             echo "$tag" >> "$ALIVE"
             n=$((n + 1))
         fi
@@ -150,23 +154,39 @@ min5_start=$(cat "$WORK/last_min5" 2>/dev/null || echo 0)
 [ "$min5_start" -gt 0 ] 2>/dev/null || min5_start=$(date +%s)
 
 tick=0
+fails=0
 while [ $tick -lt $MAX_TICKS ]; do
     tick=$((tick + 1))
     now=$(date +%s)
 
     if ! probe; then
+        fails=$((fails + 1))
         if probe_sites; then
             log "один сайт молчит, остальные отвечают — считаем туннель живым"
+            fails=0
         elif ! wan_up; then
             log "нет интернета у самого роутера — клиенты напрямую"
             apply_direct
+            fails=0
+        elif [ "$fails" -lt 3 ]; then
+            log "туннель не отвечает (проба $fails из 3) — ждём, сервер не меняем"
         else
-            log "туннель не отвечает — переключаю сервер"
-            if ! try_servers; then
-                log "свободных серверов нет — обновляю подписку"
-                /opt/etc/xray/sub-sync.sh
+            now_s=$(date +%s)
+            last=$(cat "$WORK/last_switch" 2>/dev/null || echo 0)
+            if [ $((now_s - last)) -lt 90 ]; then
+                log "смена сервера была $((now_s - last))с назад — пауза, чтобы не гонять Xray"
+            else
+                echo "$now_s" > "$WORK/last_switch"
+                log "три пробы подряд без ответа — переключаю сервер"
+                if ! try_servers; then
+                    log "свободных серверов нет — обновляю подписку"
+                    /opt/etc/xray/sub-sync.sh
+                fi
             fi
+            fails=0
         fi
+    else
+        fails=0
     fi
 
     # раз в час — свежая подписка
