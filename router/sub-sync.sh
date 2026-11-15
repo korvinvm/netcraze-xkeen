@@ -145,7 +145,7 @@ sweep() {
     h=$(echo "$hp" | cut -d' ' -f1)
     p=$(echo "$hp" | cut -d' ' -f2)
     if [ -n "$h" ] && [ -n "$p" ]; then
-        if ! nc -w 3 "$h" "$p" </dev/null >/dev/null 2>&1; then
+        if ! port_open "$h" "$p"; then
             log "$tag: $h:$p не отвечает по TCP — пропускаем без перезапуска Xray"
             return 1
         fi

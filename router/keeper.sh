@@ -61,12 +61,14 @@ refresh_pool() {
 
 # --- проверки ----------------------------------------------------------------
 probe() {
-    /opt/bin/curl -s -m 5 -o /dev/null --socks5-hostname 127.0.0.1:1082 https://api.ipify.org 2>/dev/null && return 0
-    return 1
+    # tunnel_ip, а не сырой curl через socks: при переведённых на direct правилах
+    # socks отдаёт собственный ISP-адрес, и «туннель жив» оказывается ложью
+    tunnel_ip >/dev/null
 }
 
 probe_sites() {
     # три независимых адреса: если все молчат — это не сайт, это туннель
+    tunnel_ip >/dev/null || return 1
     n=0
     for url in https://1.1.1.1 https://ya.ru https://cloudflare.com; do
         /opt/bin/curl -s -m 4 -o /dev/null --socks5-hostname 127.0.0.1:1082 "$url" 2>/dev/null && n=$((n+1))
@@ -134,8 +136,9 @@ count_alive() {
         host=$(jq -r --arg t "$tag" '.outbounds[] | select(.tag == $t) | .settings.vnext[0].address // empty'             "$CFG/04_outbounds.json" 2>/dev/null)
         port=$(jq -r --arg t "$tag" '.outbounds[] | select(.tag == $t) | (.settings.vnext[0].port // 443)'             "$CFG/04_outbounds.json" 2>/dev/null)
         [ -n "$host" ] || continue
-        # VLESS не отвечает по HTTP: проверяем сам порт — это быстрее и не врёт
-        if nc -w 2 "$host" "${port:-443}" </dev/null >/dev/null 2>&1; then
+        # VLESS не отвечает по HTTP: проверяем сам порт — это быстрее и не врёт.
+        # busybox nc тут не подходит: -w он не понимает и возвращает usage error
+        if port_open "$host" "${port:-443}"; then
             echo "$tag" >> "$ALIVE"
             n=$((n + 1))
         fi
@@ -145,6 +148,13 @@ count_alive() {
 
 # --- главный цикл -------------------------------------------------------------
 log "сторож запущен: проверка каждые ${TICK}с, серверов в списке $(refresh_pool; wc -l < "$POOL" 2>/dev/null)"
+# Роутер мог перезагрузиться в состоянии fail-open (правила на direct). Тогда
+# обычная проба «через socks» видит ISP-адрес и всё выглядит здоровым, поэтому
+# при старте сразу делаем полный пересбор с перебором серверов.
+if [ -f "$WORK/fallback_direct" ]; then
+    log "старт при включённом прямом выходе — возвращаю туннель полным пересбором"
+    FORCE_SYNC=1 /opt/etc/xray/sub-sync.sh
+fi
 # время прошлых проверок храним на диске: проход живёт 5 минут, cron поднимает новый
 [ -f "$WORK/last_hour" ] || echo 0 > "$WORK/last_hour"
 [ -f "$WORK/last_min5" ] || echo 0 > "$WORK/last_min5"
@@ -203,9 +213,12 @@ while [ $tick -lt $MAX_TICKS ]; do
         echo "$now" > "$WORK/last_min5"
         alive=$(count_alive)
         log "живых серверов: $alive"
-        if [ "$alive" -lt 5 ]; then
-            log "серверов мало — обновляю подписку"
-            /opt/etc/xray/sub-sync.sh
+        # fail-open мог остаться включённым с прошлого раза: пока он есть, socks
+        # отдаёт ISP-адрес, и «туннель жив» проверками не поймать — нужен полный
+        # перебор подписки, а не тихое обновление файла
+        if [ "$alive" -lt 5 ] || [ -f "$WORK/fallback_direct" ]; then
+            log "серверов мало или включён прямой выход — полный пересбор с перебором"
+            FORCE_SYNC=1 /opt/etc/xray/sub-sync.sh
         fi
     fi
 

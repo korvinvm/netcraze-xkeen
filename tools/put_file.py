@@ -12,6 +12,7 @@ import base64
 import hashlib
 import os
 import re
+import socket
 import sys
 from pathlib import Path
 
@@ -34,9 +35,17 @@ def connect():
     password = os.getenv("ROUTER_PASS") or read_secret("Пароль")
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    kw = {}
+    src = os.getenv("ROUTER_SRC", "")
+    if src:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(12)
+        s.bind((src, 0))
+        s.connect((host, port))
+        kw["sock"] = s
     c.connect(host, port=port, username=user, password=password, timeout=25,
               allow_agent=False, look_for_keys=False,
-              disabled_algorithms={"pubkeys": ["rsa-sha2-512", "rsa-sha2-256"]})
+              disabled_algorithms={"pubkeys": ["rsa-sha2-512", "rsa-sha2-256"]}, **kw)
     return c
 
 

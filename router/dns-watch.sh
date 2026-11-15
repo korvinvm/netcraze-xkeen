@@ -50,7 +50,15 @@ listener_ok() {
 }
 
 proc_ok() {
-    pgrep -f 'xray run' >/dev/null 2>&1
+    # pgrep -f 'xray run' на этой прошивке периодически не находит живой процесс
+    # (ложные «процесс xray не найден» в логе), поэтому смотрим /proc напрямую.
+    # Важно: argv[0] у Xray — просто "xray", без пути, поэтому шаблон без "*/".
+    for d in /proc/[0-9]*; do
+        case "$(tr '\0' ' ' < "$d/cmdline" 2>/dev/null)" in
+            xray\ run*|*/xray\ run*) return 0 ;;
+        esac
+    done
+    return 1
 }
 
 fails=0
